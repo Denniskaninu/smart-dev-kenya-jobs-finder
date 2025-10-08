@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { JobCard } from './JobCard';
 import { Search, SlidersHorizontal, X } from 'lucide-react';
+import { subDays, isAfter } from 'date-fns';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +25,7 @@ type JobListProps = {
 
 export function JobList({ jobs }: JobListProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortOrder, setSortOrder] = useState('newest'); // 'newest' | 'oldest'
+  const [dateFilter, setDateFilter] = useState('all'); // 'all' | 'week' | 'month'
   const [selectedCategories, setSelectedCategories] = useState<Set<JobCategory>>(new Set());
 
   const filteredJobs = useMemo(() => {
@@ -38,19 +39,32 @@ export function JobList({ jobs }: JobListProps) {
             job.description.toLowerCase().includes(lowercasedQuery)
         );
     }
+    
+    if (dateFilter !== 'all') {
+      const now = new Date();
+      const weekAgo = subDays(now, 7);
+      const monthAgo = subDays(now, 30);
+      
+      if (dateFilter === 'week') {
+        result = result.filter(job => isAfter(new Date(job.postedDate), weekAgo));
+      } else if (dateFilter === 'month') {
+        result = result.filter(job => isAfter(new Date(job.postedDate), monthAgo));
+      }
+    }
 
     if (selectedCategories.size > 0) {
         result = result.filter(job => selectedCategories.has(job.category));
     }
 
+    // Default sort by newest
     result.sort((a, b) => {
         const dateA = new Date(a.postedDate).getTime();
         const dateB = new Date(b.postedDate).getTime();
-        return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+        return dateB - dateA;
     });
 
     return result;
-  }, [jobs, searchQuery, sortOrder, selectedCategories]);
+  }, [jobs, searchQuery, dateFilter, selectedCategories]);
 
   const toggleCategory = (category: JobCategory) => {
     setSelectedCategories(prev => {
@@ -67,10 +81,10 @@ export function JobList({ jobs }: JobListProps) {
   const clearFilters = () => {
     setSearchQuery('');
     setSelectedCategories(new Set());
-    setSortOrder('newest');
+    setDateFilter('all');
   }
 
-  const hasActiveFilters = searchQuery || selectedCategories.size > 0;
+  const hasActiveFilters = searchQuery || selectedCategories.size > 0 || dateFilter !== 'all';
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -114,13 +128,14 @@ export function JobList({ jobs }: JobListProps) {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Select value={sortOrder} onValueChange={setSortOrder}>
+          <Select value={dateFilter} onValueChange={setDateFilter}>
             <SelectTrigger className="h-11">
-              <SelectValue placeholder="Sort by" />
+              <SelectValue placeholder="Date Posted" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="newest">Newest First</SelectItem>
-              <SelectItem value="oldest">Oldest First</SelectItem>
+              <SelectItem value="all">All Time</SelectItem>
+              <SelectItem value="week">This Week</SelectItem>
+              <SelectItem value="month">This Month</SelectItem>
             </SelectContent>
           </Select>
         </div>
