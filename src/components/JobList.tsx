@@ -1,6 +1,6 @@
 "use client";
 
-import type { Job, JobCategory, JobType, WorkModel } from '@/lib/types';
+import type { Job, JobCategory, JobType, WorkModel, JobLocation } from '@/lib/types';
 import { useState, useMemo, useTransition } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -23,6 +23,7 @@ import Link from 'next/link';
 const ALL_CATEGORIES: JobCategory[] = ['Frontend', 'Backend', 'Full Stack', 'Mobile', 'DevOps', 'Data Science'];
 const ALL_JOB_TYPES: JobType[] = ['Full-time', 'Part-time', 'Internship', 'Contract'];
 const ALL_WORK_MODELS: WorkModel[] = ['Remote', 'On-site', 'Hybrid'];
+const ALL_LOCATIONS: JobLocation[] = ['Nairobi, Kenya', 'Remote (Kenya)', 'Remote'];
 
 const FAMOUS_COMPANIES = [
   'Safaricom PLC',
@@ -48,6 +49,7 @@ export function JobList({ jobs }: JobListProps) {
   const [selectedCategories, setSelectedCategories] = useState<Set<JobCategory>>(new Set());
   const [selectedJobTypes, setSelectedJobTypes] = useState<Set<JobType>>(new Set());
   const [selectedWorkModels, setSelectedWorkModels] = useState<Set<WorkModel>>(new Set());
+  const [selectedLocations, setSelectedLocations] = useState<Set<JobLocation>>(new Set());
   const [isScanning, startScanning] = useTransition();
   const [scanResult, setScanResult] = useState<ScanJobsByCompanyOutput | null>(null);
   const [showScanResult, setShowScanResult] = useState(false);
@@ -62,7 +64,7 @@ export function JobList({ jobs }: JobListProps) {
   };
 
   const filteredJobs = useMemo(() => {
-    let result = jobs;
+    let result = jobs.filter(job => isAfter(new Date(job.postedDate), subDays(new Date(), 30)));
 
     // Date filter
     if (dateFilter !== 'all') {
@@ -94,6 +96,11 @@ export function JobList({ jobs }: JobListProps) {
     if (selectedWorkModels.size > 0) {
         result = result.filter(job => selectedWorkModels.has(job.workModel));
     }
+    
+    // Location filter
+    if (selectedLocations.size > 0) {
+        result = result.filter(job => selectedLocations.has(job.location));
+    }
 
 
     // Default sort by newest
@@ -104,7 +111,7 @@ export function JobList({ jobs }: JobListProps) {
     });
 
     return result;
-  }, [jobs, searchQuery, dateFilter, selectedCategories, selectedJobTypes, selectedWorkModels]);
+  }, [jobs, searchQuery, dateFilter, selectedCategories, selectedJobTypes, selectedWorkModels, selectedLocations]);
 
   const toggleFilter = <T,>(set: Set<T>, item: T) => {
     const newSet = new Set(set);
@@ -121,10 +128,11 @@ export function JobList({ jobs }: JobListProps) {
     setSelectedCategories(new Set());
     setSelectedJobTypes(new Set());
     setSelectedWorkModels(new Set());
+    setSelectedLocations(new Set());
     setDateFilter('all');
   }
 
-  const hasActiveFilters = searchQuery || selectedCategories.size > 0 || selectedJobTypes.size > 0 || selectedWorkModels.size > 0 || dateFilter !== 'all';
+  const hasActiveFilters = searchQuery || selectedCategories.size > 0 || selectedJobTypes.size > 0 || selectedWorkModels.size > 0 || selectedLocations.size > 0 || dateFilter !== 'all';
   
   if (showScanResult && scanResult) {
     return (
@@ -257,6 +265,28 @@ export function JobList({ jobs }: JobListProps) {
                 <SelectItem value="all">All Time</SelectItem>
               </SelectContent>
             </Select>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="h-11 w-full justify-between">
+                  <span>Location {selectedLocations.size > 0 && `(${selectedLocations.size})`}</span>
+                  <SlidersHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuLabel>Filter by Location</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {ALL_LOCATIONS.map(location => (
+                  <DropdownMenuCheckboxItem
+                    key={location}
+                    checked={selectedLocations.has(location)}
+                    onCheckedChange={() => setSelectedLocations(toggleFilter(selectedLocations, location))}
+                  >
+                    {location}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
             
             <Button onClick={handleScan} className="h-11 xl:col-start-5" disabled={isScanning}>
               {isScanning ? (
