@@ -5,10 +5,26 @@ import { Badge } from '@/components/ui/badge';
 import type { Job } from '@/lib/types';
 import { MapPin, Building, ArrowRight, CalendarDays } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
+import { useState, useEffect } from 'react';
 
 type JobCardProps = {
   job: Job;
 };
+
+function PostedDate({ date }: { date: string }) {
+  const [posted, setPosted] = useState('');
+
+  useEffect(() => {
+    setPosted(formatDistanceToNow(new Date(date), { addSuffix: true }));
+  }, [date]);
+
+  if (!posted) {
+    return null;
+  }
+
+  return <span className="truncate">{posted}</span>;
+}
+
 
 export function JobCard({ job }: JobCardProps) {
 
@@ -52,7 +68,7 @@ export function JobCard({ job }: JobCardProps) {
         </div>
         <div className="flex items-center gap-2 truncate">
             <CalendarDays className="h-4 w-4 flex-shrink-0" />
-            <span className="truncate">{formatDistanceToNow(new Date(job.postedDate), { addSuffix: true })}</span>
+            <PostedDate date={job.postedDate} />
         </div>
         <div className="col-span-2">
          <Link
