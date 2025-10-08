@@ -7,9 +7,8 @@ import Image from 'next/image';
 import { Header } from '@/components/Header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MapPin, Briefcase, Calendar, ExternalLink, Building, Loader2, Clock, Globe } from 'lucide-react';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { Card, CardContent } from '@/components/ui/card';
+import { MapPin, ExternalLink, Building, Loader2, Clock, Globe, Calendar, Briefcase } from 'lucide-react';
 import { format, formatDistanceToNow } from 'date-fns';
 import type { Job } from '@/lib/types';
 import { filterFakeJobs } from '@/ai/flows/filter-fake-jobs';
@@ -57,24 +56,11 @@ export default function JobDetailsPage() {
     }
   };
 
-
-  const heroImage = PlaceHolderImages.find(img => img.id === 'job-detail-hero');
-
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
       <main className="flex-1">
-        <div className="relative h-48 md:h-64 w-full">
-          {heroImage && (
-            <Image
-              src={heroImage.imageUrl}
-              alt={heroImage.description}
-              data-ai-hint={heroImage.imageHint}
-              fill
-              className="object-cover"
-            />
-          )}
-          <div className="absolute inset-0 bg-black/50" />
+        <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-primary/0 pt-8 pb-32">
         </div>
 
         <div className="container mx-auto px-4 pb-12">
