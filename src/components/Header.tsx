@@ -14,7 +14,9 @@ export function Header() {
           </h1>
         </Link>
         <div className="flex items-center gap-2">
-            <Button variant="ghost">Post a Job</Button>
+            <Button asChild>
+                <Link href="/post-a-job">Post a Job</Link>
+            </Button>
             <ThemeToggle />
         </div>
       </div>
