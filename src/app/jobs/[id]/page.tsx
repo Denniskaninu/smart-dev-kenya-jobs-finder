@@ -8,7 +8,7 @@ import { Header } from '@/components/Header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MapPin, Briefcase, Calendar, ExternalLink, Building, Loader2 } from 'lucide-react';
+import { MapPin, Briefcase, Calendar, ExternalLink, Building, Loader2, Clock, Globe } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { format, formatDistanceToNow } from 'date-fns';
 import type { Job } from '@/lib/types';
@@ -104,8 +104,10 @@ export default function JobDetailsPage() {
                       <span>{job.location}</span>
                     </div>
                   </div>
-                  <div className="mt-4">
+                  <div className="mt-4 flex flex-wrap gap-2">
                      <Badge variant="secondary">{job.category}</Badge>
+                     <Badge variant="outline">{job.jobType}</Badge>
+                     <Badge variant="outline">{job.workModel}</Badge>
                   </div>
                 </div>
               </div>
@@ -118,6 +120,20 @@ export default function JobDetailsPage() {
                 </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                 <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
+                  <Clock className="h-8 w-8 text-primary" />
+                  <div>
+                    <p className="font-bold">Job Type</p>
+                    <p>{job.jobType}</p>
+                  </div>
+                </div>
+                 <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
+                  <Globe className="h-8 w-8 text-primary" />
+                  <div>
+                    <p className="font-bold">Work Model</p>
+                    <p>{job.workModel}</p>
+                  </div>
+                </div>
                 <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
                   <Calendar className="h-8 w-8 text-primary" />
                   <div>
@@ -128,7 +144,7 @@ export default function JobDetailsPage() {
                 <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
                   <Briefcase className="h-8 w-8 text-primary" />
                   <div>
-                    <p className="font-bold">Job Type</p>
+                    <p className="font-bold">Category</p>
                     <p>{job.category}</p>
                   </div>
                 </div>

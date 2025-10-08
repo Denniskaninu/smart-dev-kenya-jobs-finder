@@ -14,6 +14,8 @@ export const jobs: Job[] = [
     category: 'Frontend',
     applyUrl: 'https://www.safaricom.co.ke/careers/',
     companyLogo: logos[0],
+    jobType: 'Full-time',
+    workModel: 'Hybrid',
   },
   {
     id: 'job-2',
@@ -25,6 +27,8 @@ export const jobs: Job[] = [
     category: 'Backend',
     applyUrl: 'https://africastalking.com/careers',
     companyLogo: logos[1],
+    jobType: 'Full-time',
+    workModel: 'On-site',
   },
   {
     id: 'job-3',
@@ -36,6 +40,8 @@ export const jobs: Job[] = [
     category: 'Full Stack',
     applyUrl: 'https://cellulant.io/careers/',
     companyLogo: logos[2],
+    jobType: 'Full-time',
+    workModel: 'Remote',
   },
   {
     id: 'job-4',
@@ -47,6 +53,8 @@ export const jobs: Job[] = [
     category: 'Mobile',
     applyUrl: 'https://m-kopa.com/careers/',
     companyLogo: logos[3],
+    jobType: 'Full-time',
+    workModel: 'Hybrid',
   },
   {
     id: 'job-5',
@@ -58,6 +66,8 @@ export const jobs: Job[] = [
     category: 'DevOps',
     applyUrl: 'https://twigafoods.com/careers/',
     companyLogo: logos[4],
+    jobType: 'Full-time',
+    workModel: 'On-site',
   },
     {
     id: 'job-6',
@@ -69,6 +79,8 @@ export const jobs: Job[] = [
     category: 'Mobile',
     applyUrl: 'https://www.lorisystems.com/careers',
     companyLogo: logos[0],
+    jobType: 'Contract',
+    workModel: 'On-site',
   },
   {
     id: 'job-7',
@@ -80,6 +92,8 @@ export const jobs: Job[] = [
     category: 'Data Science',
     applyUrl: 'https://equitygroupholdings.com/ke/careers',
     companyLogo: logos[2],
+    jobType: 'Full-time',
+    workModel: 'On-site',
   },
   {
     id: 'job-8',
@@ -91,6 +105,8 @@ export const jobs: Job[] = [
     category: 'Backend',
     applyUrl: 'https://www.sendyit.com/careers',
     companyLogo: logos[1],
+    jobType: 'Internship',
+    workModel: 'Remote',
   },
   {
     id: 'job-9',
@@ -102,6 +118,8 @@ export const jobs: Job[] = [
     category: 'Full Stack',
     applyUrl: '#',
     companyLogo: logos[5],
+    jobType: 'Part-time',
+    workModel: 'Remote',
   },
   {
     id: 'job-10',
@@ -113,5 +131,25 @@ export const jobs: Job[] = [
     category: 'Frontend',
     applyUrl: 'https://ihub.co.ke/jobs',
     companyLogo: logos[4],
+    jobType: 'Full-time',
+    workModel: 'On-site',
+  },
+  {
+    id: 'job-11',
+    title: 'ICT Officer',
+    company: 'Government of Kenya',
+    location: 'Nairobi, Kenya',
+    description: 'The Government of Kenya is seeking qualified ICT officers to support various digital transformation initiatives within public service. Responsibilities include network management, systems administration, and providing technical support.',
+    postedDate: new Date('2024-07-22T10:00:00Z').toISOString(),
+    category: 'DevOps',
+    applyUrl: 'https://www.publicservice.go.ke/index.php/recruitment/vacancies',
+    companyLogo: {
+        id: 'company-logo-7',
+        description: 'Coat of Arms of Kenya',
+        imageUrl: 'https://picsum.photos/seed/cl7/100/100',
+        imageHint: 'government logo'
+    },
+    jobType: 'Full-time',
+    workModel: 'On-site',
   }
 ];

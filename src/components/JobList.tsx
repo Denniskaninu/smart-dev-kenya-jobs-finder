@@ -1,6 +1,6 @@
 "use client";
 
-import type { Job, JobCategory } from '@/lib/types';
+import type { Job, JobCategory, JobType, WorkModel } from '@/lib/types';
 import { useState, useMemo, useTransition } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -21,6 +21,9 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import Link from 'next/link';
 
 const ALL_CATEGORIES: JobCategory[] = ['Frontend', 'Backend', 'Full Stack', 'Mobile', 'DevOps', 'Data Science'];
+const ALL_JOB_TYPES: JobType[] = ['Full-time', 'Part-time', 'Internship', 'Contract'];
+const ALL_WORK_MODELS: WorkModel[] = ['Remote', 'On-site', 'Hybrid'];
+
 const FAMOUS_COMPANIES = [
   'Safaricom PLC',
   "Africa's Talking",
@@ -31,6 +34,7 @@ const FAMOUS_COMPANIES = [
   'Equity Bank',
   'Sendy',
   'iHub',
+  'Government of Kenya'
 ];
 
 
@@ -42,6 +46,8 @@ export function JobList({ jobs }: JobListProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [dateFilter, setDateFilter] = useState('all');
   const [selectedCategories, setSelectedCategories] = useState<Set<JobCategory>>(new Set());
+  const [selectedJobTypes, setSelectedJobTypes] = useState<Set<JobType>>(new Set());
+  const [selectedWorkModels, setSelectedWorkModels] = useState<Set<WorkModel>>(new Set());
   const [isScanning, startScanning] = useTransition();
   const [scanResult, setScanResult] = useState<ScanJobsByCompanyOutput | null>(null);
   const [showScanResult, setShowScanResult] = useState(false);
@@ -58,16 +64,13 @@ export function JobList({ jobs }: JobListProps) {
   const filteredJobs = useMemo(() => {
     let result = jobs;
 
+    // Date filter
     if (dateFilter !== 'all') {
         const dateLimit = subDays(new Date(), dateFilter === 'week' ? 7 : 30);
         result = result.filter(job => isAfter(new Date(job.postedDate), dateLimit));
-    } else {
-       // When 'all' is selected, filter out jobs older than one month
-       const dateLimit = subDays(new Date(), 30);
-       result = jobs.filter(job => isAfter(new Date(job.postedDate), dateLimit));
     }
 
-
+    // Search query filter
     if (searchQuery) {
         const lowercasedQuery = searchQuery.toLowerCase();
         result = result.filter(job => 
@@ -77,9 +80,21 @@ export function JobList({ jobs }: JobListProps) {
         );
     }
     
+    // Category filter
     if (selectedCategories.size > 0) {
         result = result.filter(job => selectedCategories.has(job.category));
     }
+    
+    // Job Type filter
+    if (selectedJobTypes.size > 0) {
+        result = result.filter(job => selectedJobTypes.has(job.jobType));
+    }
+
+    // Work Model filter
+    if (selectedWorkModels.size > 0) {
+        result = result.filter(job => selectedWorkModels.has(job.workModel));
+    }
+
 
     // Default sort by newest
     result.sort((a, b) => {
@@ -89,27 +104,27 @@ export function JobList({ jobs }: JobListProps) {
     });
 
     return result;
-  }, [jobs, searchQuery, dateFilter, selectedCategories]);
+  }, [jobs, searchQuery, dateFilter, selectedCategories, selectedJobTypes, selectedWorkModels]);
 
-  const toggleCategory = (category: JobCategory) => {
-    setSelectedCategories(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(category)) {
-        newSet.delete(category);
-      } else {
-        newSet.add(category);
-      }
-      return newSet;
-    });
+  const toggleFilter = <T,>(set: Set<T>, item: T) => {
+    const newSet = new Set(set);
+    if (newSet.has(item)) {
+      newSet.delete(item);
+    } else {
+      newSet.add(item);
+    }
+    return newSet;
   };
 
   const clearFilters = () => {
     setSearchQuery('');
     setSelectedCategories(new Set());
+    setSelectedJobTypes(new Set());
+    setSelectedWorkModels(new Set());
     setDateFilter('all');
   }
 
-  const hasActiveFilters = searchQuery || selectedCategories.size > 0 || dateFilter !== 'all';
+  const hasActiveFilters = searchQuery || selectedCategories.size > 0 || selectedJobTypes.size > 0 || selectedWorkModels.size > 0 || dateFilter !== 'all';
   
   if (showScanResult && scanResult) {
     return (
@@ -152,13 +167,13 @@ export function JobList({ jobs }: JobListProps) {
       </div>
 
       <div className="bg-card p-4 rounded-lg shadow-sm border mb-8 sticky top-[61px] z-30">
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-          <div className="relative md:col-span-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-2">
+          <div className="relative xl:col-span-2">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
               type="text"
               placeholder="Search by title, company, or keyword..."
-              className="pl-10 h-11 text-base"
+              className="pl-10 h-11 text-base w-full"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -178,7 +193,7 @@ export function JobList({ jobs }: JobListProps) {
                 <DropdownMenuCheckboxItem
                   key={category}
                   checked={selectedCategories.has(category)}
-                  onCheckedChange={() => toggleCategory(category)}
+                  onCheckedChange={() => setSelectedCategories(toggleFilter(selectedCategories, category))}
                 >
                   {category}
                 </DropdownMenuCheckboxItem>
@@ -186,31 +201,79 @@ export function JobList({ jobs }: JobListProps) {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Select value={dateFilter} onValueChange={setDateFilter}>
-            <SelectTrigger className="h-11">
-              <SelectValue placeholder="Date Posted" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="month">This Month</SelectItem>
-              <SelectItem value="week">This Week</SelectItem>
-              <SelectItem value="all">All Time</SelectItem>
-            </SelectContent>
-          </Select>
-          
-          <Button onClick={handleScan} className="h-11 bg-accent hover:bg-accent/90" disabled={isScanning}>
-            {isScanning ? (
-                <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Scanning...
-                </>
-            ) : (
-                <>
-                <ScanSearch className="mr-2 h-4 w-4" />
-                Scan Top Companies
-                </>
-            )}
-        </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="h-11 w-full justify-between">
+                <span>Job Type {selectedJobTypes.size > 0 && `(${selectedJobTypes.size})`}</span>
+                <SlidersHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>Filter by Job Type</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {ALL_JOB_TYPES.map(type => (
+                <DropdownMenuCheckboxItem
+                  key={type}
+                  checked={selectedJobTypes.has(type)}
+                  onCheckedChange={() => setSelectedJobTypes(toggleFilter(selectedJobTypes, type))}
+                >
+                  {type}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="h-11 w-full justify-between">
+                <span>Work Model {selectedWorkModels.size > 0 && `(${selectedWorkModels.size})`}</span>
+                <SlidersHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56">
+              <DropdownMenuLabel>Filter by Work Model</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {ALL_WORK_MODELS.map(model => (
+                <DropdownMenuCheckboxItem
+                  key={model}
+                  checked={selectedWorkModels.has(model)}
+                  onCheckedChange={() => setSelectedWorkModels(toggleFilter(selectedWorkModels, model))}
+                >
+                  {model}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
         </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-2 mt-2">
+            <Select value={dateFilter} onValueChange={setDateFilter}>
+              <SelectTrigger className="h-11">
+                <SelectValue placeholder="Date Posted" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="month">This Month</SelectItem>
+                <SelectItem value="week">This Week</SelectItem>
+                <SelectItem value="all">All Time</SelectItem>
+              </SelectContent>
+            </Select>
+            
+            <Button onClick={handleScan} className="h-11 bg-accent hover:bg-accent/90 xl:col-start-5" disabled={isScanning}>
+              {isScanning ? (
+                  <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Scanning...
+                  </>
+              ) : (
+                  <>
+                  <ScanSearch className="mr-2 h-4 w-4" />
+                  Scan Top Companies
+                  </>
+              )}
+          </Button>
+        </div>
+
+
         {hasActiveFilters && (
             <div className="mt-4 flex items-center justify-between">
                 <p className="text-sm text-muted-foreground">{filteredJobs.length} results found.</p>

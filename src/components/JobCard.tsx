@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Job } from '@/lib/types';
-import { MapPin, Building, ArrowRight, CalendarDays } from 'lucide-react';
+import { MapPin, Building, ArrowRight, CalendarDays, Clock, Globe } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { useState, useEffect } from 'react';
 
@@ -59,6 +59,8 @@ export function JobCard({ job }: JobCardProps) {
         </CardDescription>
         <div className="flex flex-wrap gap-2">
           <Badge variant="secondary">{job.category}</Badge>
+          <Badge variant="outline">{job.jobType}</Badge>
+          <Badge variant="outline">{job.workModel}</Badge>
         </div>
       </CardContent>
       <CardFooter className="grid grid-cols-2 gap-4 items-center text-sm text-muted-foreground border-t pt-4">
