@@ -40,7 +40,7 @@ type JobListProps = {
 
 export function JobList({ jobs }: JobListProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [dateFilter, setDateFilter] = useState('month'); // 'all' | 'week' | 'month'
+  const [dateFilter, setDateFilter] = useState('all');
   const [selectedCategories, setSelectedCategories] = useState<Set<JobCategory>>(new Set());
   const [isScanning, startScanning] = useTransition();
   const [scanResult, setScanResult] = useState<ScanJobsByCompanyOutput | null>(null);
@@ -61,7 +61,12 @@ export function JobList({ jobs }: JobListProps) {
     if (dateFilter !== 'all') {
         const dateLimit = subDays(new Date(), dateFilter === 'week' ? 7 : 30);
         result = result.filter(job => isAfter(new Date(job.postedDate), dateLimit));
+    } else {
+       // When 'all' is selected, filter out jobs older than one month
+       const dateLimit = subDays(new Date(), 30);
+       result = jobs.filter(job => isAfter(new Date(job.postedDate), dateLimit));
     }
+
 
     if (searchQuery) {
         const lowercasedQuery = searchQuery.toLowerCase();
@@ -101,10 +106,10 @@ export function JobList({ jobs }: JobListProps) {
   const clearFilters = () => {
     setSearchQuery('');
     setSelectedCategories(new Set());
-    setDateFilter('month');
+    setDateFilter('all');
   }
 
-  const hasActiveFilters = searchQuery || selectedCategories.size > 0 || dateFilter !== 'month';
+  const hasActiveFilters = searchQuery || selectedCategories.size > 0 || dateFilter !== 'all';
   
   if (showScanResult && scanResult) {
     return (
