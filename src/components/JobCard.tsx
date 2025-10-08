@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Job } from '@/lib/types';
-import { MapPin, Building, Calendar, ArrowRight, ExternalLink } from 'lucide-react';
+import { MapPin, Building, ArrowRight, ExternalLink } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
 type JobCardProps = {
@@ -11,7 +11,6 @@ type JobCardProps = {
 };
 
 export function JobCard({ job }: JobCardProps) {
-  const postedAt = formatDistanceToNow(new Date(job.postedDate), { addSuffix: true });
 
   return (
     <Card className="flex flex-col h-full hover:shadow-lg transition-shadow duration-300">
@@ -52,13 +51,11 @@ export function JobCard({ job }: JobCardProps) {
             <span>{job.location}</span>
         </div>
          <Link
-          href={job.applyUrl}
-          target="_blank" 
-          rel="noopener noreferrer"
+          href={`/jobs/${job.id}`}
           className="flex items-center gap-1 text-primary font-semibold hover:text-accent transition-colors"
         >
-          Apply Now
-          <ExternalLink className="h-4 w-4" />
+          View Job
+          <ArrowRight className="h-4 w-4" />
         </Link>
       </CardFooter>
     </Card>
