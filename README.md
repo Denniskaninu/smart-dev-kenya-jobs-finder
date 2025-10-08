@@ -1,6 +1,6 @@
 # KenyaDevJobs - A Smart Job Board for Kenyan Tech Professionals
 
-![KenyaDevJobs Screenshot](https://storage.googleapis.com/stedi-assets/kenya-dev-jobs-screenshot.png)
+![KenyaDevJobs Screenshot](https://github.com/Denniskaninu/smart-dev-kenya-jobs-finder/blob/main/docs/image.png?raw=true)
 
 Welcome to the repository for **KenyaDevJobs**, a modern, AI-powered job board designed specifically for the vibrant tech community in Kenya. This project was built to solve a simple problem: cutting through the noise to find legitimate, high-quality tech jobs.
 
@@ -30,7 +30,6 @@ This project was built with a modern, production-ready tech stack, prioritizing 
 *   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 *   **UI Components:** [ShadCN UI](https://ui.shadcn.com/)
 *   **Generative AI:** [Genkit (Google Gemini)](https://firebase.google.com/docs/genkit)
-*   **Deployment:** [Firebase App Hosting](https://firebase.google.com/docs/app-hosting)
 
 ---
 
@@ -80,9 +79,4 @@ To get a local copy up and running, follow these simple steps.
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ---
-
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/your_twitter) - youremail@example.com
-
-Project Link: [https://github.com/your_username/KenyaDevJobs](https://github.com/your_username/KenyaDevJobs)
+Project Link: [https://github.com/Denniskaninu/smart-dev-kenya-jobs-finder.git)
