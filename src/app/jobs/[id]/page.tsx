@@ -1,7 +1,7 @@
 'use client';
 
 import { jobs } from '@/lib/jobs';
-import { notFound } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 import Image from 'next/image';
 import { Header } from '@/components/Header';
 import { Badge } from '@/components/ui/badge';
@@ -15,9 +15,10 @@ import { filterFakeJobs } from '@/ai/flows/filter-fake-jobs';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
 
-export default function JobDetailsPage({ params }: { params: { id: string } }) {
+export default function JobDetailsPage() {
   const [isChecking, setIsChecking] = useState(false);
   const { toast } = useToast();
+  const params = useParams();
   const job = jobs.find((j) => j.id === params.id) as Job | undefined;
 
   if (!job) {
