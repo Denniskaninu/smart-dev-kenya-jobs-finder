@@ -11,13 +11,8 @@ import { MapPin, Briefcase, Calendar, ExternalLink, Building } from 'lucide-reac
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { format } from 'date-fns';
 import type { Job } from '@/lib/types';
-import { filterFakeJobs } from '@/ai/flows/filter-fake-jobs';
-import { useToast } from '@/hooks/use-toast';
-import { useState } from 'react';
 
 export default function JobDetailsPage() {
-  const [isChecking, setIsChecking] = useState(false);
-  const { toast } = useToast();
   const params = useParams();
   const job = jobs.find((j) => j.id === params.id) as Job | undefined;
 
@@ -25,32 +20,8 @@ export default function JobDetailsPage() {
     notFound();
   }
   
-  const handleApplyClick = async () => {
-    setIsChecking(true);
-    try {
-      const result = await filterFakeJobs({
-        jobTitle: job.title,
-        company: job.company,
-        description: job.description,
-        location: job.location,
-      });
-
-      if (result.isLegitimate) {
-        window.open(job.applyUrl, '_blank', 'noopener,noreferrer');
-      } else {
-        toast({
-          variant: 'destructive',
-          title: 'Potentially Fake Job Post',
-          description: result.reason || 'This job has been flagged as suspicious.',
-        });
-      }
-    } catch (error) {
-      console.error('Error verifying job:', error);
-      // If the check fails, proceed to the URL as a fallback
-      window.open(job.applyUrl, '_blank', 'noopener,noreferrer');
-    } finally {
-      setIsChecking(false);
-    }
+  const handleApplyClick = () => {
+    window.open(job.applyUrl, '_blank', 'noopener,noreferrer');
   };
 
 
@@ -129,9 +100,9 @@ export default function JobDetailsPage() {
                 </div>
               </div>
               <div className="flex justify-center pt-4">
-                 <Button onClick={handleApplyClick} disabled={isChecking} size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                    {isChecking ? 'Verifying...' : 'Apply Now'}
-                    {!isChecking && <ExternalLink className="ml-2 h-4 w-4" />}
+                 <Button onClick={handleApplyClick} size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                    Apply Now
+                    <ExternalLink className="ml-2 h-4 w-4" />
                 </Button>
               </div>
             </CardContent>
