@@ -9,6 +9,13 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+/.idx/
+/.next/
+/docs/
+.docs
+docs
+.next
+.idx
 
 # testing
 /coverage
