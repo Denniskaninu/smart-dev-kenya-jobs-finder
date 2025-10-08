@@ -1,7 +1,8 @@
+'use client';
+
 import { jobs } from '@/lib/jobs';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -10,13 +11,47 @@ import { MapPin, Briefcase, Calendar, ExternalLink, Building } from 'lucide-reac
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { format } from 'date-fns';
 import type { Job } from '@/lib/types';
+import { filterFakeJobs } from '@/ai/flows/filter-fake-jobs';
+import { useToast } from '@/hooks/use-toast';
+import { useState } from 'react';
 
 export default function JobDetailsPage({ params }: { params: { id: string } }) {
+  const [isChecking, setIsChecking] = useState(false);
+  const { toast } = useToast();
   const job = jobs.find((j) => j.id === params.id) as Job | undefined;
 
   if (!job) {
     notFound();
   }
+  
+  const handleApplyClick = async () => {
+    setIsChecking(true);
+    try {
+      const result = await filterFakeJobs({
+        jobTitle: job.title,
+        company: job.company,
+        description: job.description,
+        location: job.location,
+      });
+
+      if (result.isLegitimate) {
+        window.open(job.applyUrl, '_blank', 'noopener,noreferrer');
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Potentially Fake Job Post',
+          description: result.reason || 'This job has been flagged as suspicious.',
+        });
+      }
+    } catch (error) {
+      console.error('Error verifying job:', error);
+      // If the check fails, proceed to the URL as a fallback
+      window.open(job.applyUrl, '_blank', 'noopener,noreferrer');
+    } finally {
+      setIsChecking(false);
+    }
+  };
+
 
   const heroImage = PlaceHolderImages.find(img => img.id === 'job-detail-hero');
 
@@ -93,11 +128,9 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
                 </div>
               </div>
               <div className="flex justify-center pt-4">
-                 <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                    <Link href={job.applyUrl} target="_blank" rel="noopener noreferrer">
-                        Apply Now
-                        <ExternalLink className="ml-2 h-4 w-4" />
-                    </Link>
+                 <Button onClick={handleApplyClick} disabled={isChecking} size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                    {isChecking ? 'Verifying...' : 'Apply Now'}
+                    {!isChecking && <ExternalLink className="ml-2 h-4 w-4" />}
                 </Button>
               </div>
             </CardContent>
