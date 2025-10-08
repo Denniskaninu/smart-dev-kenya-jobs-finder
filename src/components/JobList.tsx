@@ -29,7 +29,11 @@ export function JobList({ jobs }: JobListProps) {
   const [selectedCategories, setSelectedCategories] = useState<Set<JobCategory>>(new Set());
 
   const filteredJobs = useMemo(() => {
-    let result = [...jobs];
+    const now = new Date();
+    const monthAgo = subDays(now, 30);
+    
+    let result = jobs.filter(job => isAfter(new Date(job.postedDate), monthAgo));
+
 
     if (searchQuery) {
         const lowercasedQuery = searchQuery.toLowerCase();
@@ -41,15 +45,12 @@ export function JobList({ jobs }: JobListProps) {
     }
     
     if (dateFilter !== 'all') {
-      const now = new Date();
       const weekAgo = subDays(now, 7);
-      const monthAgo = subDays(now, 30);
       
       if (dateFilter === 'week') {
         result = result.filter(job => isAfter(new Date(job.postedDate), weekAgo));
-      } else if (dateFilter === 'month') {
-        result = result.filter(job => isAfter(new Date(job.postedDate), monthAgo));
       }
+      // 'month' filter is already handled by the initial filter
     }
 
     if (selectedCategories.size > 0) {
@@ -133,9 +134,8 @@ export function JobList({ jobs }: JobListProps) {
               <SelectValue placeholder="Date Posted" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Time</SelectItem>
+              <SelectItem value="all">This Month</SelectItem>
               <SelectItem value="week">This Week</SelectItem>
-              <SelectItem value="month">This Month</SelectItem>
             </SelectContent>
           </Select>
         </div>
