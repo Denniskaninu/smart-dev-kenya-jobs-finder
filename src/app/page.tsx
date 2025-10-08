@@ -4,10 +4,10 @@ import { jobs } from '@/lib/jobs';
 import type { Job } from '@/lib/types';
 import { Suspense } from 'react';
 import { JobSkeleton } from '@/components/JobSkeleton';
+import { Footer } from '@/components/Footer';
+
 
 async function JobBoard() {
-  // We will display all jobs and let the user filter them.
-  // The AI verification will happen on the details page.
   const legitJobs: Job[] = jobs;
 
   return <JobList jobs={legitJobs} />;
@@ -23,6 +23,7 @@ export default function Home() {
            <JobBoard />
          </Suspense>
       </main>
+      <Footer />
     </div>
   );
 }

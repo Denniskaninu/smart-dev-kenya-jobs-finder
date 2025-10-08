@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
 import Link from 'next/link';
+import { Footer } from '@/components/Footer';
 
 export default function PostAJobPage() {
   return (
@@ -49,6 +50,7 @@ export default function PostAJobPage() {
             </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
