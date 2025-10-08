@@ -1,3 +1,46 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "company-logo-1",
+      "description": "Logo for a tech company",
+      "imageUrl": "https://picsum.photos/seed/cl1/100/100",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "company-logo-2",
+      "description": "Logo for another tech company",
+      "imageUrl": "https://picsum.photos/seed/cl2/100/100",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "company-logo-3",
+      "description": "Logo for a startup",
+      "imageUrl": "https://picsum.photos/seed/cl3/100/100",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "company-logo-4",
+      "description": "Logo for a financial tech company",
+      "imageUrl": "https://picsum.photos/seed/cl4/100/100",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "company-logo-5",
+      "description": "Logo for a health tech company",
+      "imageUrl": "https://picsum.photos/seed/cl5/100/100",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "company-logo-6",
+      "description": "A fake company logo",
+      "imageUrl": "https://picsum.photos/seed/cl6/100/100",
+      "imageHint": "company logo"
+    },
+    {
+      "id": "job-detail-hero",
+      "description": "An abstract image representing technology and work",
+      "imageUrl": "https://picsum.photos/seed/jdh1/1200/400",
+      "imageHint": "office technology"
+    }
+  ]
 }
