@@ -77,9 +77,9 @@ export default function JobDetailsPage() {
           <div className="absolute inset-0 bg-black/50" />
         </div>
 
-        <div className="container mx-auto px-4 -mt-24 pb-12">
+        <div className="container mx-auto px-4 pb-12">
           <div className="max-w-4xl mx-auto">
-            <div className="bg-card rounded-lg shadow-lg overflow-hidden">
+            <div className="bg-card rounded-lg shadow-lg overflow-hidden -mt-24">
                 <div className="p-6">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:gap-6">
                         <div className="flex-shrink-0 w-24 h-24 rounded-lg border p-1 bg-white mb-4 sm:mb-0">
@@ -110,7 +110,7 @@ export default function JobDetailsPage() {
                             <Badge variant="outline">{job.workModel}</Badge>
                         </div>
                         </div>
-                         <div className="flex-shrink-0 pt-2">
+                         <div className="flex-shrink-0 pt-2 sm:ml-auto">
                             <Button onClick={handleApplyClick} size="lg" disabled={isChecking} className="w-full sm:w-auto">
                                 {isChecking ? (
                                     <>
