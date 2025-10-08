@@ -79,9 +79,4 @@ To get a local copy up and running, follow these simple steps.
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ---
-
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/denniskaninu) - denniskaninu254@gmail.com
-
 Project Link: [https://github.com/Denniskaninu/smart-dev-kenya-jobs-finder.git)
