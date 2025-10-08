@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Briefcase } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
+import { Button } from './ui/button';
 
 export function Header() {
   return (
@@ -12,7 +13,10 @@ export function Header() {
             KenyaDevJobs
           </h1>
         </Link>
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+            <Button variant="ghost">Post a Job</Button>
+            <ThemeToggle />
+        </div>
       </div>
     </header>
   );

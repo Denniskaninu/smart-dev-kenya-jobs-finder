@@ -258,7 +258,7 @@ export function JobList({ jobs }: JobListProps) {
               </SelectContent>
             </Select>
             
-            <Button onClick={handleScan} className="h-11 bg-accent hover:bg-accent/90 xl:col-start-5" disabled={isScanning}>
+            <Button onClick={handleScan} className="h-11 xl:col-start-5" disabled={isScanning}>
               {isScanning ? (
                   <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -150,7 +150,7 @@ export default function JobDetailsPage() {
                 </div>
               </div>
               <div className="flex justify-center pt-4">
-                 <Button onClick={handleApplyClick} size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground" disabled={isChecking}>
+                 <Button onClick={handleApplyClick} size="lg" disabled={isChecking}>
                     {isChecking ? (
                         <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
