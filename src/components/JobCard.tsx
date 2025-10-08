@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import type { Job } from '@/lib/types';
-import { MapPin, Building, Calendar, ArrowRight } from 'lucide-react';
+import { MapPin, Building, Calendar, ArrowRight, ExternalLink } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 
 type JobCardProps = {
@@ -28,7 +28,9 @@ export function JobCard({ job }: JobCardProps) {
             />
           </div>
           <div className="flex-grow">
-            <CardTitle className="text-lg font-headline leading-tight mb-1">{job.title}</CardTitle>
+            <CardTitle className="text-lg font-headline leading-tight mb-1">
+                <Link href={`/jobs/${job.id}`} className="hover:text-primary/80 transition-colors">{job.title}</Link>
+            </CardTitle>
             <div className="text-sm text-muted-foreground flex items-center gap-2">
                 <Building className="h-4 w-4" />
                 <span>{job.company}</span>
@@ -50,11 +52,13 @@ export function JobCard({ job }: JobCardProps) {
             <span>{job.location}</span>
         </div>
          <Link
-          href={`/jobs/${job.id}`}
+          href={job.applyUrl}
+          target="_blank" 
+          rel="noopener noreferrer"
           className="flex items-center gap-1 text-primary font-semibold hover:text-accent transition-colors"
         >
-          View Job
-          <ArrowRight className="h-4 w-4" />
+          Apply Now
+          <ExternalLink className="h-4 w-4" />
         </Link>
       </CardFooter>
     </Card>

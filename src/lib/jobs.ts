@@ -12,7 +12,7 @@ export const jobs: Job[] = [
     description: 'We are looking for a skilled Senior Frontend Engineer to join our team. You will be responsible for building the client-side of our web applications. You should be able to translate our company and customer needs into functional and appealing interactive applications.',
     postedDate: new Date('2024-07-20T09:00:00Z').toISOString(),
     category: 'Frontend',
-    applyUrl: '#',
+    applyUrl: 'https://www.safaricom.co.ke/careers/',
     companyLogo: logos[0],
   },
   {
@@ -23,7 +23,7 @@ export const jobs: Job[] = [
     description: 'Join our backend team to build and maintain scalable services and APIs. You will work with a team of developers to design, implement, and ship new features. Strong knowledge of Node.js, databases, and cloud services is required.',
     postedDate: new Date('2024-07-19T14:30:00Z').toISOString(),
     category: 'Backend',
-    applyUrl: '#',
+    applyUrl: 'https://africastalking.com/careers',
     companyLogo: logos[1],
   },
   {
@@ -34,7 +34,7 @@ export const jobs: Job[] = [
     description: 'We are hiring a Full Stack Developer to work on both our frontend and backend systems. This role requires proficiency in React and Python/Django. Experience with payment systems is a plus.',
     postedDate: new Date('2024-07-21T11:00:00Z').toISOString(),
     category: 'Full Stack',
-    applyUrl: '#',
+    applyUrl: 'https://cellulant.io/careers/',
     companyLogo: logos[2],
   },
   {
@@ -45,7 +45,7 @@ export const jobs: Job[] = [
     description: 'Develop and maintain our native Android application. You will be part of a team that is passionate about creating a great user experience for our customers across Africa. Strong Kotlin skills are a must.',
     postedDate: new Date('2024-07-18T08:00:00Z').toISOString(),
     category: 'Mobile',
-    applyUrl: '#',
+    applyUrl: 'https://m-kopa.com/careers/',
     companyLogo: logos[3],
   },
   {
@@ -56,7 +56,7 @@ export const jobs: Job[] = [
     description: 'We\'re seeking a DevOps Engineer to manage our cloud infrastructure on AWS. You will be responsible for CI/CD pipelines, monitoring, and ensuring the reliability and scalability of our platform.',
     postedDate: new Date('2024-07-20T16:00:00Z').toISOString(),
     category: 'DevOps',
-    applyUrl: '#',
+    applyUrl: 'https://twigafoods.com/careers/',
     companyLogo: logos[4],
   },
     {
@@ -67,7 +67,7 @@ export const jobs: Job[] = [
     description: 'Build cross-platform mobile applications for our logistics platform using React Native. Collaborate with product managers and designers to deliver high-quality mobile experiences.',
     postedDate: new Date('2024-07-17T13:20:00Z').toISOString(),
     category: 'Mobile',
-    applyUrl: '#',
+    applyUrl: 'https://www.lorisystems.com/careers',
     companyLogo: logos[0],
   },
   {
@@ -78,7 +78,7 @@ export const jobs: Job[] = [
     description: 'Analyze large datasets to extract meaningful insights and build predictive models. You will work on projects related to credit scoring, fraud detection, and customer segmentation. Proficiency in Python, R, and SQL required.',
     postedDate: new Date('2024-07-21T09:30:00Z').toISOString(),
     category: 'Data Science',
-    applyUrl: '#',
+    applyUrl: 'https://equitygroupholdings.com/ke/careers',
     companyLogo: logos[2],
   },
   {
@@ -89,7 +89,7 @@ export const jobs: Job[] = [
     description: 'Exciting opportunity for a junior backend developer to learn and grow. You will be working with Go to build microservices for our logistics and delivery platform. Mentorship provided.',
     postedDate: new Date().toISOString(),
     category: 'Backend',
-    applyUrl: '#',
+    applyUrl: 'https://www.sendyit.com/careers',
     companyLogo: logos[1],
   },
   {
@@ -111,7 +111,7 @@ export const jobs: Job[] = [
     description: 'Lead our frontend team in building innovative products. We are a Vue.js shop. You should have experience leading a team and a strong portfolio of complex web applications.',
     postedDate: new Date('2024-07-16T18:00:00Z').toISOString(),
     category: 'Frontend',
-    applyUrl: '#',
+    applyUrl: 'https://ihub.co.ke/jobs',
     companyLogo: logos[4],
   }
 ];
