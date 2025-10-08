@@ -25,15 +25,18 @@ type JobListProps = {
 
 export function JobList({ jobs }: JobListProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [dateFilter, setDateFilter] = useState('all'); // 'all' | 'week' | 'month'
+  const [dateFilter, setDateFilter] = useState('month'); // 'all' | 'week' | 'month'
   const [selectedCategories, setSelectedCategories] = useState<Set<JobCategory>>(new Set());
 
   const filteredJobs = useMemo(() => {
     const now = new Date();
-    const monthAgo = subDays(now, 30);
     
-    let result = jobs.filter(job => isAfter(new Date(job.postedDate), monthAgo));
+    let result = jobs;
 
+    if (dateFilter !== 'all') {
+        const dateLimit = subDays(now, dateFilter === 'week' ? 7 : 30);
+        result = result.filter(job => isAfter(new Date(job.postedDate), dateLimit));
+    }
 
     if (searchQuery) {
         const lowercasedQuery = searchQuery.toLowerCase();
@@ -44,15 +47,6 @@ export function JobList({ jobs }: JobListProps) {
         );
     }
     
-    if (dateFilter !== 'all') {
-      const weekAgo = subDays(now, 7);
-      
-      if (dateFilter === 'week') {
-        result = result.filter(job => isAfter(new Date(job.postedDate), weekAgo));
-      }
-      // 'month' filter is already handled by the initial filter
-    }
-
     if (selectedCategories.size > 0) {
         result = result.filter(job => selectedCategories.has(job.category));
     }
@@ -82,10 +76,10 @@ export function JobList({ jobs }: JobListProps) {
   const clearFilters = () => {
     setSearchQuery('');
     setSelectedCategories(new Set());
-    setDateFilter('all');
+    setDateFilter('month');
   }
 
-  const hasActiveFilters = searchQuery || selectedCategories.size > 0 || dateFilter !== 'all';
+  const hasActiveFilters = searchQuery || selectedCategories.size > 0 || dateFilter !== 'month';
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -134,8 +128,9 @@ export function JobList({ jobs }: JobListProps) {
               <SelectValue placeholder="Date Posted" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">This Month</SelectItem>
+              <SelectItem value="month">This Month</SelectItem>
               <SelectItem value="week">This Week</SelectItem>
+              <SelectItem value="all">All Time</SelectItem>
             </SelectContent>
           </Select>
         </div>
