@@ -82,6 +82,6 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_twitter) - youremail@example.com
+Your Name - [@your_twitter](https://twitter.com/denniskaninu) - denniskaninu254@gmail.com
 
-Project Link: [https://github.com/your_username/KenyaDevJobs](https://github.com/your_username/KenyaDevJobs)
+Project Link: [https://github.com/Denniskaninu/smart-dev-kenya-jobs-finder.git)
