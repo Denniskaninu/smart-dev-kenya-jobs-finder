@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Briefcase } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
 
 export function Header() {
   return (
@@ -11,6 +12,7 @@ export function Header() {
             KenyaDevJobs
           </h1>
         </Link>
+        <ThemeToggle />
       </div>
     </header>
   );
