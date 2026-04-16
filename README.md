@@ -1,6 +1,6 @@
 # KenyaDevJobs
 
-![Project Banner](./public/banner.png)
+![Project Banner](https://cdn.prod.website-files.com/67c0aaf4121a77877b6f24a2/681024d0910c9883de216dd9_dghdfggdfg.png)
 
 ## 📋 Overview
 
